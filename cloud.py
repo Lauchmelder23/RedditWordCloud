@@ -45,8 +45,8 @@ if args.s is None:
 if args.b is None:
     args.b = "black"
 
-if args.m is None:
-    args.m = 200
+if args.N is None:
+    args.N = 200
 
 
 def fetch_comments(comment) -> list:
