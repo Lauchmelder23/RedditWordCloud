@@ -51,7 +51,9 @@ if args.m is None:
 
 def fetch_comments(comment) -> list:
     if len(comment.replies) == 0:
-        return [re.sub(r'https?://\S+', '', comment.body)]
+       c = re.sub(r'https?://\S+', '', comment.body)
+       c = re.sub(r'http?://\S+', '', c)
+       return [c]
 
     raw_comments = [comment.body]
 
