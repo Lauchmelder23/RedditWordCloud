@@ -33,6 +33,8 @@ parser.add_argument("--color", action="store_true",
                     help="Use mask as color mask")
 parser.add_argument("-N", metavar="max_words", type=int,
                     help="Maximum number of words in WordCloud (Default 200)")
+parser.add_argument("-v", "--verbose", action="store_true",
+                    help="Dump comments to comments.log")
 
 args = parser.parse_args()
 
@@ -50,11 +52,11 @@ if args.N is None:
 
 
 def fetch_comments(comment) -> list:
+    comment_body = re.sub(r'[\[\(]?https?:\/\/[0-9A-Za-z\/\?#\[\]\)@\.!$\&%\-+,;=]+', '', comment.body)
     if len(comment.replies) == 0:
-        c = re.sub(r'(\[text\]\()?https?://[0-9A-Za-z/\?#\[\]@\.!$\&%\-+,;=]+\)?', '', comment.body)
-        return [re.sub(r'https?://[0-9A-Za-z/\?#\[\]@\.!$\&%\-+,;=]+', '', c)]
+        return [comment_body]
 
-    raw_comments = [comment.body]
+    raw_comments = [comment_body]
 
     for comm in comment.replies:
         raw_comments.extend(fetch_comments(comm))
@@ -121,6 +123,10 @@ if args.color is True:
 
 if args.o is not None:
     wordcloud.to_file(args.o)
+
+if args.verbose is True:
+    with open("comments.log", "w+", encoding="utf-8") as file:
+        file.writelines("%s\n" % comment for comment in comments)
 
 plt.imshow(wordcloud, interpolation="bilinear")
 plt.axis("off")
