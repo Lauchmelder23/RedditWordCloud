@@ -39,7 +39,7 @@ parser.add_argument("-v", "--verbose", action="store_true",
 parser.add_argument("-w", metavar="wordlist", type=str,
                     help="The wordlist to use for weighting (Default english)")
 parser.add_argument("-min", metavar="min_freq", type=float,
-                    help="The minimum frequency a word needs to have to be counted in % (Default 0)")
+                    help="The minimum frequency a word needs to have to be counted in percent (Default 0)")
 parser.add_argument("-boost", metavar="freq_boost", type=float,
                     help="The boost a word that isn't in the wordlist gets (Default 1)")
 parser.add_argument("-blow", metavar="freq_blow", type=float,
