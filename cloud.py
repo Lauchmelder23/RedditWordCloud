@@ -76,6 +76,8 @@ if args.blow is None:
 
 def fetch_comments(comment) -> list:
     comment_body = re.sub(r'[\[\(]?https?:\/\/[0-9A-Za-z\/\?#\[\]\)@\.!$\&%\-+,;=]+', '', comment.body)
+    comment_body = comment_body.replace("[deleted]", "")
+    comment_body = comment_body.replace("[removed]", "")
     if len(comment.replies) == 0:
         return [comment_body]
 
