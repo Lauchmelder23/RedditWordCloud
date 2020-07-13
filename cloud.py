@@ -44,6 +44,8 @@ parser.add_argument("-boost", metavar="freq_boost", type=float,
                     help="The boost a word that isn't in the wordlist gets (Default 1)")
 parser.add_argument("-blow", metavar="freq_blow", type=float,
                     help="The \"anti-boost\" a word that is in the wordlist gets (Default 1)")
+parser.add_argument("--top", action="store_true",
+                    help="Use Top posts instead of Hot posts")
 
 args = parser.parse_args()
 
@@ -93,14 +95,19 @@ reddit = praw.Reddit(client_id=settings["client_id"],
                      user_agent="Windows10:RWC:1.0")
 
 if args.sub:
-    posts = reddit.subreddit(args.id).hot(limit=args.p)
+    if args.top:
+        posts = reddit.subreddit(args.id).top("all")
+    else:
+        posts = reddit.subreddit(args.id).hot(limit=args.p)
 else:
     posts = [reddit.submission(id=args.id)]
 
 i = 1
 comments = []
+posts = list(posts)
+length = len(posts)
 for post in posts:
-    print(f"\rFetching comments... {i}/{args.p}   ", end=" ", flush=True)
+    print(f"\rFetching comments... {i}/{length}   ", end=" ", flush=True)
     post.comments.replace_more(limit=args.n)
     for top_level_comment in post.comments:
         comments.extend(fetch_comments(top_level_comment))
