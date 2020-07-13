@@ -6,3 +6,4 @@ images
 *.png
 *.json
 *.log
+rawtext.py
