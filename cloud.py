@@ -51,9 +51,8 @@ if args.N is None:
 
 def fetch_comments(comment) -> list:
     if len(comment.replies) == 0:
-       c = re.sub(r'https?://\S+', '', comment.body)
-       c = re.sub(r'http?://\S+', '', c)
-       return [c]
+        c = re.sub(r'(\[text\]\()?https?://[0-9A-Za-z/\?#\[\]@\.!$\&%\-+,;=]+\)?', '', comment.body)
+        return [re.sub(r'https?://[0-9A-Za-z/\?#\[\]@\.!$\&%\-+,;=]+', '', c)]
 
     raw_comments = [comment.body]
 
@@ -95,7 +94,7 @@ mask = None
 colors = None
 if args.m is not None:
     print("Creating mask...", end=" ", flush=True)
-    mask = np.array(Image.open(args.m))
+    mask = np.array(Image.open(args.m).convert("RGB"))
     colors = ImageColorGenerator(mask)
     print("Done!")
 
