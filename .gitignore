@@ -7,4 +7,6 @@ images
 *.json
 *.log
 *.txt
+*.pdf
 rawtext.py
+pdfcloud.py

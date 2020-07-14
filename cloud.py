@@ -148,6 +148,7 @@ wc_obj = WordCloud(font_path="ARIALUNI.TTF",
                    contour_color=cc
                    )
 
+print("Processing words...", end=" ", flush=True)
 words = wc_obj.process_text(' '.join(comments))
 
 with open(f"wordlists/{args.w}.csv") as list:
@@ -173,8 +174,11 @@ for (word, freq) in words.items():
             out_freq *= args.boost
 
         out_dict[word] = out_freq
+print("Done!")
 
+print("Create cloud...", end=" ", flush=True)
 wordcloud = wc_obj.generate_from_frequencies(out_dict)
+print("Done!")
 
 if args.color is True:
     wordcloud.recolor(color_func=colors)
