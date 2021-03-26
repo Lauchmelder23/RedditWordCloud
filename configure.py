@@ -8,5 +8,5 @@ parser.add_argument("secret", type=str)
 args = parser.parse_args()
 
 data = {"client_id": args.client_id, "secret": args.secret}
-with open("config.json") as file:
+with open("config.json", "w") as file:
     json.dump(data, file)
